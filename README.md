@@ -1,2 +1,2 @@
-# Penguin-Runner
+# PenguinRUn
  endless runner
