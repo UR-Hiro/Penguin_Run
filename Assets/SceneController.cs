@@ -17,11 +17,13 @@ public class SceneController : MonoBehaviour
     private void GameOver()
     {
         gameOverImg.SetActive(true);
+        Time.timeScale = 0;
     }
 
     private void Update(){
         if(!gameOverImg.activeInHierarchy) return;
         if(!Input.GetMouseButton(0))return;
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         // if(gameOverImg.activeInHierarchy && Input.GetMouseButton(0)) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

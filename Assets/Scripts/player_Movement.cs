@@ -8,6 +8,10 @@ public class player_Movement : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    [SerializeField] private float rayCastDist = 5f;
+
+    [SerializeField] private LayerMask rayCastMask;
+
     private bool isGrounded;
 
     void Start()
@@ -25,6 +29,18 @@ public class player_Movement : MonoBehaviour
         if (isGrounded == true){
             animator.SetBool("isjumping",false);
         }
+
+        RaycastHit2D hit2D = Physics2D.Raycast(transform.position,Vector2.down, rayCastDist, rayCastMask);
+        if(hit2D){
+            isGrounded = true;
+            Debug.DrawLine(transform.position, ((Vector2)transform.position + (Vector2.down * rayCastDist)), Color.green);
+        }
+
+        else{
+            isGrounded = false;
+            Debug.DrawLine(transform.position, ((Vector2)transform.position + (Vector2.down * rayCastDist)), Color.red);
+        }
+
     }
     void FixedUpdate()
     {
@@ -36,11 +52,11 @@ public class player_Movement : MonoBehaviour
 {
         if(!isGrounded)return;
 
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)){
-            isGrounded = false;
-            rb2d.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-        }
+        if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Space)) return;
 
+        isGrounded = false;
+        rb2d.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+    
     }
 
     private void OnCollisionEnter2D(Collision2D collision2D){
